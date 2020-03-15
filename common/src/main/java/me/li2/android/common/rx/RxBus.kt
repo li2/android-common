@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package me.li2.android.common.rx
 
 import io.reactivex.BackpressureStrategy

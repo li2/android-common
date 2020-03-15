@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package me.li2.android.common.arch
 
 import androidx.fragment.app.Fragment

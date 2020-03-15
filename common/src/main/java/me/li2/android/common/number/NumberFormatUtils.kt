@@ -2,6 +2,7 @@
  * Created by Weiyi Li on 2019-11-03.
  * https://github.com/li2
  */
+@file:Suppress("unused")
 package me.li2.android.common.number
 
 import timber.log.Timber
