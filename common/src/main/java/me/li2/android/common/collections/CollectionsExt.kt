@@ -17,3 +17,9 @@ fun <T> List<T>.swap(indexA: Int, indexB: Int): List<T> {
         it[indexB] = this[indexA]
     }.toList()
 }
+
+/**
+ * @return `true` if [element] is found in the collection.
+ */
+fun List<String>.containsIgnoreCase(element: String) =
+        this.firstOrNull { it.equals(element, true) } != null

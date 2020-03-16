@@ -10,9 +10,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
-import androidx.core.net.toUri
 import me.li2.android.common.logic.orFalse
-import java.io.File
 
 /**
  * @return mime type of file from Uri (Uniform Resource Identifier,
@@ -33,5 +31,3 @@ fun Uri.toMimeType(context: Context): String? {
 fun Uri.isVideo(context: Context) = toMimeType(context)?.startsWith("video").orFalse()
 
 fun Uri.isImage(context: Context) = toMimeType(context)?.startsWith("image").orFalse()
-
-fun File.toMimeType(context: Context) = this.toUri().toMimeType(context)
