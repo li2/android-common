@@ -4,9 +4,11 @@
  */
 package me.li2.android.common.number
 
+import me.li2.android.common.number.NumberFormatUtils.formatCurrency
 import me.li2.android.common.number.NumberFormatUtils.formatNumber
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.util.*
 
 class NumberFormatUtilsTest {
 
@@ -41,5 +43,17 @@ class NumberFormatUtilsTest {
     @Test
     fun testDollarSign() {
         assertEquals("$12,345.67", formatNumber(12345.67, "$###,###.###"))
+    }
+
+    @Test
+    fun testCurrency() {
+        assertEquals("$9,876,543.21",
+                formatCurrency(9876543.21, "USD", Locale("en", "US")))
+        assertEquals("USD9,876,543.21",
+                formatCurrency(9876543.21, "USD", Locale("en", "NZ")))
+        assertEquals("NZD9,876,543.21",
+                formatCurrency(9876543.21, "NZD", Locale("en", "US")))
+        assertEquals("$9,876,543.21",
+                formatCurrency(9876543.21, "NZD", Locale("en", "NZ")))
     }
 }

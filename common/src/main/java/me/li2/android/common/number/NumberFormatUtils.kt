@@ -8,6 +8,7 @@ package me.li2.android.common.number
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.util.*
 
 object NumberFormatUtils {
@@ -41,4 +42,23 @@ object NumberFormatUtils {
                 Timber.e(exception, "Failed to format number: $number")
                 number.toString()
             }
+
+    /**
+     * Return formatted currency amount for given local.
+     *
+     * @param amount
+     * @param currencyCode see [ISO 4217 currency cod](https://en.wikipedia.org/wiki/ISO_4217)
+     * @param locale [Locale] for given language, country, variant.
+     * @see <a href="https://blog.stylingandroid.com/currency-curiosities/">Currency Curiosities</a>
+     * @see <a href="https://docs.oracle.com/javase/tutorial/i18n/format/numberFormat.html">Java - Number Format</a>
+     */
+    fun formatCurrency(
+            amount: Double,
+            currencyCode: String,
+            locale: Locale = Locale.getDefault()): String {
+        // obtain a text formatter for a given currency whilst honouring the locale
+        return NumberFormat.getCurrencyInstance(locale)
+                .apply { currency = Currency.getInstance(currencyCode) }
+                .format(amount)
+    }
 }
