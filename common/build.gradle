@@ -46,6 +46,7 @@ dependencies {
     //Rx
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.vRxAndroid"
     implementation "com.petarmarijanovic:rx-activity-result:$rootProject.vRxActivityResult"
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.vRxPermission"
 
     //Timber
     implementation "com.jakewharton.timber:timber:$vTimber"
