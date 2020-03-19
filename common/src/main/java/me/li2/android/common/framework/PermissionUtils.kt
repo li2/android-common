@@ -14,8 +14,8 @@ import androidx.fragment.app.FragmentActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import me.li2.android.common.framework.PermissionResult.*
+import me.li2.android.common.framework.PermissionUtils.checkAndRequest
 import me.li2.android.common.framework.PermissionUtils.isPermissionGranted
-import me.li2.android.common.framework.PermissionUtils.requestPermission
 import me.li2.android.common.framework.PermissionUtils.requestPermissions
 
 enum class PermissionResult {
@@ -28,14 +28,6 @@ object PermissionUtils {
 
     fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED
-    }
-
-    fun isPermissionsGranted(context: Context, permissions: List<String>): Boolean {
-        var granted = false
-        permissions.forEach { permission ->
-            granted = granted && isPermissionGranted(context, permission)
-        }
-        return granted
     }
 
     fun requestPermission(activity: FragmentActivity,
@@ -55,6 +47,18 @@ object PermissionUtils {
                     else -> DENIED_NOT_ASK_AGAIN
                 }
             }
+
+    internal fun checkAndRequest(activity: FragmentActivity,
+                                 permission: String): Observable<PermissionResult> {
+        return Observable.just(isPermissionGranted(activity, permission))
+                .flatMap { granted ->
+                    if (granted) {
+                        Observable.just(GRANTED)
+                    } else {
+                        requestPermission(activity, permission)
+                    }
+                }
+    }
 }
 
 fun Context.isLocationPermissionGranted(): Boolean =
@@ -73,13 +77,8 @@ fun FragmentActivity.requestLocationPermission(): Observable<PermissionResult> {
             }
 }
 
-fun FragmentActivity.requestCameraPermission(): Observable<PermissionResult> {
-    return Observable.just(isPermissionGranted(this, CAMERA))
-            .flatMap { granted ->
-                if (granted) {
-                    Observable.just(GRANTED)
-                } else {
-                    requestPermission(this, CAMERA)
-                }
-            }
-}
+fun FragmentActivity.requestCameraPermission(): Observable<PermissionResult> =
+        checkAndRequest(this, CAMERA)
+
+fun FragmentActivity.requestBluetoothPermission(): Observable<PermissionResult> =
+        checkAndRequest(this, BLUETOOTH)
