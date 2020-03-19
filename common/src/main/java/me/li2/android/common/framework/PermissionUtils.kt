@@ -63,6 +63,7 @@ fun Context.isLocationPermissionGranted(): Boolean =
 
 fun FragmentActivity.requestLocationPermission(): Observable<PermissionResult> {
     return Observable.just(isLocationPermissionGranted())
+            .take(1)
             .flatMap { granted ->
                 if (granted) {
                     Observable.just(GRANTED)
