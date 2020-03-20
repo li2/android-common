@@ -5,7 +5,7 @@ buildscript {
         kotlin_version = '1.3.60-eap-25'
     }
     ext.vKotlin = '1.3.60-eap-25'
-    ext.vGradle = '3.5.3'
+    ext.vGradle = '4.0.0-beta03'
     repositories {
         google()
         jcenter()
