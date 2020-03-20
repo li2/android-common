@@ -4,7 +4,7 @@
  */
 @file:Suppress("unused")
 
-package me.li2.android.common.framework
+package me.li2.android.common.rx
 
 import android.Manifest.permission.*
 import android.content.Context
@@ -13,10 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
-import me.li2.android.common.framework.PermissionResult.*
-import me.li2.android.common.framework.PermissionUtils.checkAndRequest
-import me.li2.android.common.framework.PermissionUtils.isPermissionGranted
-import me.li2.android.common.framework.PermissionUtils.requestPermissions
+import me.li2.android.common.rx.PermissionResult.*
+import me.li2.android.common.rx.PermissionUtils.checkAndRequest
+import me.li2.android.common.rx.PermissionUtils.isPermissionGranted
+import me.li2.android.common.rx.PermissionUtils.requestPermissions
 
 enum class PermissionResult {
     GRANTED,
@@ -24,7 +24,7 @@ enum class PermissionResult {
     DENIED_NOT_ASK_AGAIN,
 }
 
-object PermissionUtils {
+private object PermissionUtils {
 
     fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED
