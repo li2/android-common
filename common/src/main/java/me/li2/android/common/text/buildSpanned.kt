@@ -16,12 +16,14 @@
 @file:Suppress("unused", "NOTHING_TO_INLINE")
 package me.li2.android.common.text
 
+import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.*
 import android.view.View
+import androidx.annotation.StyleRes
 
 inline fun buildSpanned(f: SpannableStringBuilder.() -> Unit): Spanned =
         SpannableStringBuilder().apply(f)
@@ -46,6 +48,9 @@ inline val SpannableStringBuilder.Superscript: Array<CharacterStyle>
 
 inline val SpannableStringBuilder.Subscript: Array<CharacterStyle>
     get() = arrayOf(SubscriptSpan(), relativeSize(0.5f))
+
+inline fun SpannableStringBuilder.textAppearance(context: Context, @StyleRes style: Int): TextAppearanceSpan =
+    TextAppearanceSpan(context, style)
 
 inline fun SpannableStringBuilder.relativeSize(proportion: Float): RelativeSizeSpan =
         RelativeSizeSpan(proportion)
