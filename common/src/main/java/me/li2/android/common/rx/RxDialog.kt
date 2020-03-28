@@ -67,10 +67,4 @@ private fun AlertDialog.setOnClickListener(onClickListener: OnClickListener?) {
     setButtonClickListener(BUTTON_POSITIVE)
     setButtonClickListener(BUTTON_NEGATIVE)
     setButtonClickListener(BUTTON_NEUTRAL)
-
-    if (onClickListener != null) {
-        setOnDismissListener { callback(BUTTON_NEGATIVE) }
-    } else {
-        setOnDismissListener(null)
-    }
 }
