@@ -6,13 +6,19 @@ import android.content.DialogInterface.*
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import me.li2.android.common.rx.buttonClicks
+import me.li2.android.common.rx.checkAndRequestLocationPermission
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +26,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<View>(android.R.id.content).setOnClickListener {
-            demoRxDialog()
+            compositeDisposable += checkAndRequestLocationPermission(locationPermissionPrompt(this)).subscribe {
+                toast(it.toString())
+            }
         }
+    }
+
+    private fun locationPermissionPrompt(context: Context): AlertDialog {
+        return MaterialAlertDialogBuilder(context)
+            .setTitle("\"Demo App\" Would Like to Access the Location")
+            .setMessage("This will let you search place, get your current location")
+            .setPositiveButton("Yep!", null)
+            .setNegativeButton("Nope!", null)
+            .create()
     }
 
     @SuppressLint("CheckResult")

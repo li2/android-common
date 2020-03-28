@@ -56,7 +56,7 @@ object PermissionUtils {
                 .flatMap { granted ->
                     when {
                         !granted && prompt != null -> {
-                            prompt.buttonClicks().flatMap { which ->
+                            prompt.also { it.show() }.buttonClicks().flatMap { which ->
                                 if (which == DialogInterface.BUTTON_POSITIVE) {
                                     requestPermission(activity, permission)
                                 } else {
