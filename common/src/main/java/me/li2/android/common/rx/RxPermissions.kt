@@ -18,7 +18,6 @@ import io.reactivex.Observable
 import me.li2.android.common.rx.PermissionResult.*
 import me.li2.android.common.rx.PermissionUtils.checkAndRequestPermission
 import me.li2.android.common.rx.PermissionUtils.isPermissionGranted
-import me.li2.android.common.rx.PermissionUtils.requestPermissions
 
 enum class PermissionResult {
     GRANTED,
@@ -72,30 +71,14 @@ object PermissionUtils {
     }
 }
 
-fun Context.isLocationPermissionGranted(): Boolean =
-        isPermissionGranted(this, ACCESS_COARSE_LOCATION)
-                || isPermissionGranted(this, ACCESS_FINE_LOCATION)
+/*
+ * ACCESS_FINE_LOCATION for both NETWORK_PROVIDER and GPS_PROVIDER
+ * ACCESS_COARSE_LOCATION only for NETWORK_PROVIDER.
+ */
+fun Context.isLocationPermissionGranted(): Boolean = isPermissionGranted(this, ACCESS_FINE_LOCATION)
 
-fun FragmentActivity.checkAndRequestLocationPermission(prompt: AlertDialog? = null): Observable<PermissionResult> {
-    val permissions = listOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
-    return Observable.just(isLocationPermissionGranted())
-            .take(1)
-            .flatMap { granted ->
-                when {
-                    !granted && prompt != null -> {
-                        prompt.buttonClicks().flatMap { which ->
-                            if (which == DialogInterface.BUTTON_POSITIVE) {
-                                requestPermissions(this, permissions)
-                            } else {
-                                Observable.just(DENIED)
-                            }
-                        }
-                    }
-                    !granted && prompt == null -> requestPermissions(this, permissions)
-                    else -> Observable.just(GRANTED)
-                }
-            }
-}
+fun FragmentActivity.checkAndRequestLocationPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
+    checkAndRequestPermission(this, ACCESS_FINE_LOCATION)
 
 fun FragmentActivity.checkAndRequestCameraPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
         checkAndRequestPermission(this, CAMERA)
