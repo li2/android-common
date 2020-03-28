@@ -32,7 +32,7 @@ fun Context.onBluetoothStateChanges(): Observable<Boolean> =
  * @exception RuntimeException if don't have bluetooth permission.
  */
 fun isBluetoothEnabled(activity: FragmentActivity): Observable<Boolean> {
-    return activity.requestBluetoothPermission()
+    return activity.checkAndRequestBluetoothPermission()
             .map { permissionResult ->
                 if (permissionResult == PermissionResult.GRANTED) {
                     isBluetoothEnabled()

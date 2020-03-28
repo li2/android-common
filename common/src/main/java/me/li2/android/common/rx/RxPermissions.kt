@@ -8,13 +8,15 @@ package me.li2.android.common.rx
 
 import android.Manifest.permission.*
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import me.li2.android.common.rx.PermissionResult.*
-import me.li2.android.common.rx.PermissionUtils.checkAndRequest
+import me.li2.android.common.rx.PermissionUtils.checkAndRequestPermission
 import me.li2.android.common.rx.PermissionUtils.isPermissionGranted
 import me.li2.android.common.rx.PermissionUtils.requestPermissions
 
@@ -24,7 +26,7 @@ enum class PermissionResult {
     DENIED_NOT_ASK_AGAIN,
 }
 
-private object PermissionUtils {
+object PermissionUtils {
 
     fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED
@@ -48,14 +50,23 @@ private object PermissionUtils {
                 }
             }
 
-    internal fun checkAndRequest(activity: FragmentActivity,
-                                 permission: String): Observable<PermissionResult> {
+    fun checkAndRequestPermission(activity: FragmentActivity,
+                                  permission: String,
+                                  prompt: AlertDialog? = null): Observable<PermissionResult> {
         return Observable.just(isPermissionGranted(activity, permission))
                 .flatMap { granted ->
-                    if (granted) {
-                        Observable.just(GRANTED)
-                    } else {
-                        requestPermission(activity, permission)
+                    when {
+                        !granted && prompt != null -> {
+                            prompt.buttonClicks().flatMap { which ->
+                                if (which == DialogInterface.BUTTON_POSITIVE) {
+                                    requestPermission(activity, permission)
+                                } else {
+                                    Observable.just(DENIED)
+                                }
+                            }
+                        }
+                        !granted && prompt == null -> requestPermission(activity, permission)
+                        else -> Observable.just(GRANTED)
                     }
                 }
     }
@@ -65,20 +76,29 @@ fun Context.isLocationPermissionGranted(): Boolean =
         isPermissionGranted(this, ACCESS_COARSE_LOCATION)
                 || isPermissionGranted(this, ACCESS_FINE_LOCATION)
 
-fun FragmentActivity.requestLocationPermission(): Observable<PermissionResult> {
+fun FragmentActivity.checkAndRequestLocationPermission(prompt: AlertDialog? = null): Observable<PermissionResult> {
+    val permissions = listOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
     return Observable.just(isLocationPermissionGranted())
             .take(1)
             .flatMap { granted ->
-                if (granted) {
-                    Observable.just(GRANTED)
-                } else {
-                    requestPermissions(this, listOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION))
+                when {
+                    !granted && prompt != null -> {
+                        prompt.buttonClicks().flatMap { which ->
+                            if (which == DialogInterface.BUTTON_POSITIVE) {
+                                requestPermissions(this, permissions)
+                            } else {
+                                Observable.just(DENIED)
+                            }
+                        }
+                    }
+                    !granted && prompt == null -> requestPermissions(this, permissions)
+                    else -> Observable.just(GRANTED)
                 }
             }
 }
 
-fun FragmentActivity.requestCameraPermission(): Observable<PermissionResult> =
-        checkAndRequest(this, CAMERA)
+fun FragmentActivity.checkAndRequestCameraPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
+        checkAndRequestPermission(this, CAMERA)
 
-fun FragmentActivity.requestBluetoothPermission(): Observable<PermissionResult> =
-        checkAndRequest(this, BLUETOOTH)
+fun FragmentActivity.checkAndRequestBluetoothPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
+        checkAndRequestPermission(this, BLUETOOTH)
