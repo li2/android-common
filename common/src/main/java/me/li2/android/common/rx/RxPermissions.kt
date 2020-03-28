@@ -78,10 +78,10 @@ object PermissionUtils {
 fun Context.isLocationPermissionGranted(): Boolean = isPermissionGranted(this, ACCESS_FINE_LOCATION)
 
 fun FragmentActivity.checkAndRequestLocationPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
-    checkAndRequestPermission(this, ACCESS_FINE_LOCATION)
+    checkAndRequestPermission(this, ACCESS_FINE_LOCATION, prompt)
 
 fun FragmentActivity.checkAndRequestCameraPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
-        checkAndRequestPermission(this, CAMERA)
+        checkAndRequestPermission(this, CAMERA, prompt)
 
 fun FragmentActivity.checkAndRequestBluetoothPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
-        checkAndRequestPermission(this, BLUETOOTH)
+        checkAndRequestPermission(this, BLUETOOTH, prompt)
