@@ -43,8 +43,8 @@ fun <T : Any, L : LiveData<Event<T>>> Fragment.observeEventOnView(
         liveData: L,
         onEventUnhandledContent: (T) -> Unit) {
     liveData.observe(viewLifecycleOwner, Observer { event ->
-        event?.getContentIfNotHandled()?.let {
-            onEventUnhandledContent
+        event?.getContentIfNotHandled()?.let { content ->
+            onEventUnhandledContent(content)
         }
     })
 }
