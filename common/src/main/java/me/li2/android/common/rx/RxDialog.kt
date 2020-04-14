@@ -17,7 +17,6 @@ import me.li2.android.common.rx.internal.checkMainThread
 /**
  * Create an observable which emits the identifier of clicked button in the dialog.
  * @return [BUTTON_POSITIVE], [BUTTON_NEUTRAL], [BUTTON_NEGATIVE].
- *  Please note dismiss dialog also consider as negative.
  */
 fun AlertDialog.buttonClicks(): Observable<Int> {
     return AlertDialogButtonClickObservable(this)
