@@ -30,6 +30,7 @@ fun List<String>.containsIgnoreCase(element: String) =
  */
 fun <T> List<T>.swap(indexA: Int, indexB: Int): List<T> {
     if (indexA >= size || indexB >= size) return this
-    Collections.swap(this, indexA, indexB)
-    return this
+    val mutableList = this.toMutableList()
+    Collections.swap(mutableList, indexA, indexB)
+    return mutableList.toList()
 }
