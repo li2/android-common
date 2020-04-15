@@ -9,6 +9,21 @@ import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 
+/** Open another app.
+ * @param packageName the full package name of the app to open
+ * @return true if likely successful, false if unsuccessful
+ */
+fun Context.openApp(packageName: String, onAppNotFound: () -> Unit = {}) {
+    return try {
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+            ?: throw ActivityNotFoundException()
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        this.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        onAppNotFound()
+    }
+}
+
 /**
  * Open application settings page.
  * @param appId application ID
