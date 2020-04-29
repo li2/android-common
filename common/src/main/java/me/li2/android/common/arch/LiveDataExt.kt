@@ -3,6 +3,7 @@
  * https://github.com/li2
  */
 @file:Suppress("unused")
+
 package me.li2.android.common.arch
 
 import androidx.fragment.app.Fragment
@@ -17,7 +18,7 @@ fun <T> MutableLiveData<Resource<T>>.postLoading() =
         postValue(Resource.loading(value?.data))
 
 fun <T> MutableLiveData<Resource<T>>.postError(exception: Exception? = null) =
-        postValue(Resource.error(exception))
+        postValue(Resource.error(exception, value?.data))
 
 fun <T : Any, L : LiveData<T>> Fragment.observeOnView(liveData: L, body: (T) -> Unit) {
     liveData.observe(viewLifecycleOwner, Observer(body))
