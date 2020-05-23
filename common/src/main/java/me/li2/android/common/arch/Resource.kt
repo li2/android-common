@@ -23,7 +23,7 @@ import me.li2.android.common.arch.Resource.Status.*
  * @param <T></T>
  * @see <a href="https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/vo/architecture-components-samples: Status.kt">Resource.kt</a>
  */
-class Resource<out T> private constructor(
+data class Resource<out T> constructor(
         val status: Status,
         val data: T?,
         val exception: Exception?) {
