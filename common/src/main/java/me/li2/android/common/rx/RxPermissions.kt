@@ -3,7 +3,6 @@
  * https://github.com/li2
  */
 @file:Suppress("unused")
-
 package me.li2.android.common.rx
 
 import android.Manifest.permission.*
@@ -14,7 +13,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Observable
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
+import io.reactivex.rxjava3.core.Observable
 import me.li2.android.common.rx.PermissionResult.*
 import me.li2.android.common.rx.PermissionUtils.checkAndRequestPermission
 import me.li2.android.common.rx.PermissionUtils.isPermissionGranted
@@ -38,7 +38,8 @@ object PermissionUtils {
 
     fun requestPermissions(activity: FragmentActivity,
                            permissions: List<String>): Observable<PermissionResult> =
-            RxPermissions(activity).requestEach(*permissions.toTypedArray()).map { permission ->
+            // todo remove RxJavaBridge when RxPermissions migrated to RxJava3
+            RxJavaBridge.toV3Observable(RxPermissions(activity).requestEach(*permissions.toTypedArray())).map { permission ->
                 when {
                     // permission is granted
                     permission.granted -> GRANTED
@@ -78,7 +79,7 @@ object PermissionUtils {
 fun Context.isLocationPermissionGranted(): Boolean = isPermissionGranted(this, ACCESS_FINE_LOCATION)
 
 fun FragmentActivity.checkAndRequestLocationPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
-    checkAndRequestPermission(this, ACCESS_FINE_LOCATION, prompt)
+        checkAndRequestPermission(this, ACCESS_FINE_LOCATION, prompt)
 
 fun FragmentActivity.checkAndRequestCameraPermission(prompt: AlertDialog? = null): Observable<PermissionResult> =
         checkAndRequestPermission(this, CAMERA, prompt)

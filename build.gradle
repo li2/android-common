@@ -43,9 +43,10 @@ allprojects {
 
         // Rx Dependencies
         vRxActivityResult = '2.2.1'
-        vRxAndroid = '2.1.1'
-        vRxBinding = '3.0.0-alpha2'
-        vRxKotlin = '2.3.0'
+        vRxAndroid = '3.0.0'
+        vRxJava = '3.0.4'
+        vRxKotlin = '3.0.0'
+        vRxBinding = '4.0.0'
         vRxPermission = "0.9.5@aar"
 
         // Misc

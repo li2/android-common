@@ -15,15 +15,15 @@
 package me.li2.android.common.rx.internal
 
 import android.os.Looper
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposables
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * @see <a href="https://github.com/JakeWharton/RxBinding/blob/master/rxbinding/src/main/java/com/jakewharton/rxbinding3/internal/mainThread.kt">JakeWharton/RxBinding</a>
  */
 fun checkMainThread(observer: Observer<*>): Boolean {
     if (Looper.myLooper() != Looper.getMainLooper()) {
-        observer.onSubscribe(Disposables.empty())
+        observer.onSubscribe(Disposable.disposed())
         observer.onError(IllegalStateException(
                 "Expected to be called on the main thread but was " + Thread.currentThread().name))
         return false
