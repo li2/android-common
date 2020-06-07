@@ -5,10 +5,13 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import timber.log.Timber
 
 /** Open another app.
  * @param packageName the full package name of the app to open
@@ -31,6 +34,25 @@ fun Context.openApp(packageName: String, onAppNotFound: () -> Unit = {}) {
  */
 fun Context.openAppSettings(appId: String) {
     startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$appId")))
+}
+
+/**
+ * Get App version name.
+ */
+fun Context.getVersionName(): String? {
+    return try {
+        packageManager.getPackageInfo(packageName, 0).versionName
+    } catch (exception: PackageManager.NameNotFoundException) {
+        Timber.e(exception, "failed to get version name")
+        null
+    }
+}
+
+/**
+ * Open Url
+ */
+fun Context.openUrl(url: String) {
+    startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
 }
 
 /**
