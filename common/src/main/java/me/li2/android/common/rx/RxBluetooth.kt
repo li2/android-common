@@ -10,7 +10,8 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter.*
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.SingleSource
 import me.li2.android.common.logic.orFalse
 
 /**
@@ -25,7 +26,7 @@ fun Context.bluetoothStateChanges(): Observable<Boolean> {
         .map { intent -> intent.getIntExtra(EXTRA_STATE, ERROR) }
         .filter { state -> state == STATE_ON || state == STATE_OFF } // don't care the intermediate states
         .map { state -> state == STATE_ON }
-        .startWith(isBluetoothEnabled())
+        .startWith(SingleSource { isBluetoothEnabled() })
 }
 
 /**

@@ -2,6 +2,7 @@
  * Created by Weiyi Li on 2019-11-04.
  * https://github.com/li2
  */
+@file:Suppress("unused")
 package me.li2.android.common.framework
 
 import android.content.Context

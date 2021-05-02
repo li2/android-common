@@ -3,7 +3,7 @@ package me.li2.android.common.rx
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /*
  * @created: 01 May 2021.

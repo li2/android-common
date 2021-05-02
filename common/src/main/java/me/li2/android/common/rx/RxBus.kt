@@ -1,9 +1,9 @@
 @file:Suppress("unused")
 package me.li2.android.common.rx
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlin.reflect.KClass
 
 class RxBus {

@@ -3,6 +3,7 @@
  * https://github.com/li2
  */
 @file:JvmName("Uri")
+@file:Suppress("unused")
 package me.li2.android.common.net
 
 import android.annotation.SuppressLint

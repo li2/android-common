@@ -9,9 +9,9 @@ package me.li2.android.common.rx
 import android.content.DialogInterface
 import android.content.DialogInterface.*
 import androidx.appcompat.app.AlertDialog
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.android.MainThreadDisposable
+import io.reactivex.rxjava3.android.MainThreadDisposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
 import me.li2.android.common.rx.internal.checkMainThread
 
 /**

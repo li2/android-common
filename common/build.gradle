@@ -9,7 +9,7 @@ android {
         minSdkVersion vMinSdk
         targetSdkVersion vTargetSdk
         versionCode 1
-        versionName "0.1.12"
+        versionName "0.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -44,9 +44,11 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.vAndroidxTestEspresso"
 
     //Rx
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.vRxAndroid"
-    implementation "com.petarmarijanovic:rx-activity-result:$rootProject.vRxActivityResult"
+    implementation "io.reactivex.rxjava3:rxandroid:$rootProject.vRxAndroid"
+    implementation "io.reactivex.rxjava3:rxjava:$rootProject.vRxJava"
     implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.vRxPermission"
+    implementation "com.github.akarnokd:rxjava3-bridge:3.0.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     //Timber
     implementation "com.jakewharton.timber:timber:$vTimber"

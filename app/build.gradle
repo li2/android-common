@@ -51,14 +51,11 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$rootProject.vAndroidxTestJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.vAndroidxTestEspresso"
 
+    implementation "io.reactivex.rxjava3:rxandroid:$rootProject.vRxAndroid"
+    implementation "io.reactivex.rxjava3:rxjava:$rootProject.vRxJava"
+
     //Google
     implementation "com.google.android.material:material:$rootProject.vGoogleMaterial"
-
-    //Rx
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.vRxAndroid"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.vRxKotlin"
-    implementation "com.jakewharton.rxbinding3:rxbinding:$rootProject.vRxBinding"
-    implementation "com.petarmarijanovic:rx-activity-result:$rootProject.vRxActivityResult"
 
     //Timber
     implementation "com.jakewharton.timber:timber:$vTimber"
