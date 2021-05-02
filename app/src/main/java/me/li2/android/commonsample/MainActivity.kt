@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<TextView>(R.id.resultTextView).text = SimUtils.getSimInfo(this)
-
+        
         compositeDisposable += onSdcardStateChanges().subscribe {
             d("sdcard state changed: $it")
         }
