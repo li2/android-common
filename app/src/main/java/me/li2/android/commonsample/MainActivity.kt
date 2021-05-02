@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import me.li2.android.common.framework.SimUtils
+import me.li2.android.common.rx.bluetoothStateChanges
 import me.li2.android.common.rx.sdcardStateChanges
 import me.li2.android.common.rx.subscribeOnLifecycle
 import timber.log.Timber.d
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() {
 
         sdcardStateChanges().subscribeOnLifecycle(lifecycle) {
             d("sdcard state changed: $it")
+        }
+
+        bluetoothStateChanges().subscribeOnLifecycle(lifecycle) {
+            d("bluetooth state changed: $it")
         }
     }
 }
