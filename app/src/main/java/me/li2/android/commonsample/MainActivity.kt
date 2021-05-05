@@ -1,21 +1,25 @@
 package me.li2.android.commonsample
 
 import android.os.Bundle
-import android.widget.TextView
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import me.li2.android.common.framework.SimUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import me.li2.android.common.rx.bluetoothStateChanges
 import me.li2.android.common.rx.sdcardStateChanges
 import me.li2.android.common.rx.subscribeOnLifecycle
+import me.li2.android.common.sensor.sensorChanges
 import timber.log.Timber.d
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var sensorDisposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        findViewById<TextView>(R.id.resultTextView).text = SimUtils.getSimInfo(this)
 
         sdcardStateChanges().subscribeOnLifecycle(lifecycle) {
             d("sdcard state changed: $it")
@@ -23,6 +27,23 @@ class MainActivity : AppCompatActivity() {
 
         bluetoothStateChanges().subscribeOnLifecycle(lifecycle) {
             d("bluetooth state changed: $it")
+        }
+
+        trySensorChangesFlowable()
+    }
+
+    private fun trySensorChangesFlowable() {
+        sensorDisposable = sensorChanges()
+            .doOnSubscribe { d("doOnSubscribe") }
+            .doOnCancel { d("doOnCancel") }
+            .throttleFirst(5, TimeUnit.SECONDS)
+            .doOnNext { sensorEvent -> d("doOnNext: $sensorEvent, ${System.currentTimeMillis()}") }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+
+        findViewById<Button>(R.id.resultTextView).setOnClickListener {
+            sensorDisposable.dispose()
         }
     }
 }
