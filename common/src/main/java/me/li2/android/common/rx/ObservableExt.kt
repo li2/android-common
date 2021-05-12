@@ -5,15 +5,10 @@
 @file:Suppress("unused")
 package me.li2.android.common.rx
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
@@ -38,42 +33,3 @@ fun <T> Single<T>.forUi(): Single<T> =
 fun Completable.forUi(): Completable =
         this.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-
-/**
- * Subscribe on lifecycle onStart and dispose on lifecycle onStop.
- */
-fun <T> Observable<T>.subscribeOnLifecycle(lifecycle: Lifecycle, block: (T) -> Unit) {
-    val lifecycleObserver: LifecycleObserver = object : LifecycleObserver {
-        private var subscription: Disposable? = null
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun onStart() {
-            subscription = subscribe(block)
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onStop() {
-            subscription?.dispose()
-        }
-    }
-
-    lifecycle.addObserver(lifecycleObserver)
-}
-
-fun <T> Flowable<T>.subscribeOnLifecycle(lifecycle: Lifecycle, block: (T) -> Unit) {
-    val lifecycleObserver: LifecycleObserver = object : LifecycleObserver {
-        private var subscription: Disposable? = null
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun onStart() {
-            subscription = subscribe(block)
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onStop() {
-            subscription?.dispose()
-        }
-    }
-
-    lifecycle.addObserver(lifecycleObserver)
-}

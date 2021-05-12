@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothAdapter.*
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import io.reactivex.rxjava3.core.Observable
+import me.li2.android.common.framework.onBroadcast
 import me.li2.android.common.logic.orFalse
 
 /**
