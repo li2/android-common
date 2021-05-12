@@ -1,5 +1,5 @@
 @file:Suppress("unused")
-package me.li2.android.common.rx
+package me.li2.android.common.arch
 
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable

@@ -4,7 +4,7 @@
  */
 @file:Suppress("unused")
 
-package me.li2.android.common.rx
+package me.li2.android.common.framework
 
 import android.content.DialogInterface
 import android.content.DialogInterface.*

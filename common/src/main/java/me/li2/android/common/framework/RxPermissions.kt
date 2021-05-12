@@ -17,7 +17,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import hu.akarnokd.rxjava3.bridge.RxJavaBridge
 import io.reactivex.rxjava3.core.Observable
 import me.li2.android.common.framework.PermissionResult.*
-import me.li2.android.common.rx.buttonClicks
 
 enum class PermissionResult {
     GRANTED,
