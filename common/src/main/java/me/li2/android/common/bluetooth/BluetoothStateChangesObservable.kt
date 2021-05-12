@@ -4,13 +4,15 @@
  */
 @file:Suppress("unused")
 
-package me.li2.android.common.rx
+package me.li2.android.common.bluetooth
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter.*
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import io.reactivex.rxjava3.core.Observable
+import me.li2.android.common.framework.PermissionResult
+import me.li2.android.common.framework.checkAndRequestBluetoothPermission
 import me.li2.android.common.framework.onBroadcast
 import me.li2.android.common.logic.orFalse
 

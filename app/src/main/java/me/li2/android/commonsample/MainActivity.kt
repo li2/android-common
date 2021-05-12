@@ -1,14 +1,15 @@
 package me.li2.android.commonsample
 
+import android.hardware.Sensor
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import me.li2.android.common.rx.bluetoothStateChanges
-import me.li2.android.common.rx.sdcardStateChanges
+import me.li2.android.common.bluetooth.bluetoothStateChanges
 import me.li2.android.common.rx.subscribeOnLifecycle
+import me.li2.android.common.sdcard.sdcardStateChanges
 import me.li2.android.common.sensor.sensorChanges
 import timber.log.Timber.d
 import java.util.concurrent.TimeUnit
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun trySensorChangesFlowable() {
-        sensorDisposable = sensorChanges()
+        sensorDisposable = sensorChanges(Sensor.TYPE_LINEAR_ACCELERATION)
             .doOnSubscribe { d("doOnSubscribe") }
             .doOnCancel { d("doOnCancel") }
             .throttleFirst(5, TimeUnit.SECONDS)
