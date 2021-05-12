@@ -35,7 +35,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$vKotlin"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.8'
+
+    //AndroidX
     implementation "androidx.appcompat:appcompat:$rootProject.vAndroidxAppcompat"
     implementation "androidx.core:core-ktx:$rootProject.vAndroidxCoreKtx"
 
