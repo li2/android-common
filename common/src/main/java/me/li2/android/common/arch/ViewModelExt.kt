@@ -1,5 +1,6 @@
 package me.li2.android.common.arch
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
@@ -18,5 +19,17 @@ fun ViewModel.io(
                 throwable.errorHandler()
             }
         }
+    }
+}
+
+fun <T> ViewModel.ioWithState(
+    state: MutableLiveData<Resource<T>>,
+    ioHandler: suspend () -> T
+) {
+    state.postLoading()
+    io({
+        state.postError(this)
+    }) {
+        state.postSuccess(ioHandler())
     }
 }
